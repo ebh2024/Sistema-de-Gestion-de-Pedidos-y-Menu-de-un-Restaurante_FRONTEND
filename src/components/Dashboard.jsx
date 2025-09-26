@@ -39,6 +39,16 @@ const Dashboard = () => {
     }
   };
 
+  const handleOrderAction = () => {
+    if (user?.rol === 'admin') {
+      navigate('/order-management-admin');
+    } else if (user?.rol === 'mesero') {
+      navigate('/order-management');
+    } else if (user?.rol === 'cocinero') {
+      navigate('/order-view');
+    }
+  };
+
   return (
     <>
       <AppBar position="static">
@@ -100,8 +110,13 @@ const Dashboard = () => {
                 <Typography variant="body2" color="text.secondary">
                   Gestiona pedidos en tiempo real.
                 </Typography>
-                <Button variant="contained" sx={{ mt: 2 }}>
-                  Ver Pedidos
+                <Button
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  onClick={handleOrderAction}
+                  startIcon={<Visibility />}
+                >
+                  {user?.rol === 'admin' ? 'Gestionar Pedidos' : user?.rol === 'mesero' ? 'Ver Mis Pedidos' : 'Ver Pedidos en Cocina'}
                 </Button>
               </CardContent>
             </Card>

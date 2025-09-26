@@ -13,6 +13,11 @@ import MenuManagement from './components/MenuManagement';
 import MenuView from './components/MenuView';
 import TableManagement from './components/TableManagement';
 import TableView from './components/TableView';
+import OrderCreation from './components/OrderCreation';
+import OrderManagementWaiter from './components/OrderManagementWaiter';
+import OrderViewCook from './components/OrderViewCook';
+import OrderManagementAdmin from './components/OrderManagementAdmin';
+import OrderEdit from './components/OrderEdit';
 
 const theme = createTheme({
   palette: {
@@ -76,6 +81,46 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['mesero', 'cocinero']}>
                   <TableView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-creation"
+              element={
+                <ProtectedRoute allowedRoles={['mesero']}>
+                  <OrderCreation />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-management"
+              element={
+                <ProtectedRoute allowedRoles={['mesero']}>
+                  <OrderManagementWaiter />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-view"
+              element={
+                <ProtectedRoute allowedRoles={['cocinero']}>
+                  <OrderViewCook />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-management-admin"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <OrderManagementAdmin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order-edit/:id"
+              element={
+                <ProtectedRoute allowedRoles={['mesero', 'admin']}>
+                  <OrderEdit />
                 </ProtectedRoute>
               }
             />
