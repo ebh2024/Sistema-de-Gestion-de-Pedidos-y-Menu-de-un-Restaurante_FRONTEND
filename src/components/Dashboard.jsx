@@ -11,7 +11,7 @@ import {
   Card,
   CardContent
 } from '@mui/material';
-import { Restaurant, MenuBook, TableChart, ShoppingCart, Logout, Edit, Visibility } from '@mui/icons-material';
+import { Restaurant, MenuBook, TableChart, ShoppingCart, Logout, Edit, Visibility, People } from '@mui/icons-material';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -79,7 +79,7 @@ const Dashboard = () => {
         </Box>
 
         <Grid container spacing={4} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
                 <MenuBook sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
@@ -100,7 +100,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
                 <ShoppingCart sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
@@ -121,7 +121,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
                 <TableChart sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
@@ -142,7 +142,30 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          {user?.rol === 'admin' && (
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
+                  <People sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
+                  <Typography variant="h6" component="h3" gutterBottom>
+                    Gestión de Usuarios
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Crea y administra usuarios del sistema.
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 2 }}
+                    onClick={() => navigate('/user-management')}
+                    startIcon={<Edit />}
+                  >
+                    Gestionar Usuarios
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
                 <Restaurant sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />

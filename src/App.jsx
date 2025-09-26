@@ -18,6 +18,7 @@ import OrderManagementWaiter from './components/OrderManagementWaiter';
 import OrderViewCook from './components/OrderViewCook';
 import OrderManagementAdmin from './components/OrderManagementAdmin';
 import OrderEdit from './components/OrderEdit';
+import UserManagement from './components/UserManagement';
 
 const theme = createTheme({
   palette: {
@@ -121,6 +122,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['mesero', 'admin']}>
                   <OrderEdit />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-management"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <UserManagement />
                 </ProtectedRoute>
               }
             />
