@@ -60,7 +60,7 @@ const OrderCreation = () => {
         axios.get('http://localhost:3000/api/dishes')
       ]);
 
-      const availableTables = tablesRes.data.filter(table => table.disponible);
+      const availableTables = tablesRes.data.filter(table => table.estado === 'available');
       setTables(availableTables);
 
       const availableDishes = dishesRes.data.filter(dish => dish.disponibilidad);

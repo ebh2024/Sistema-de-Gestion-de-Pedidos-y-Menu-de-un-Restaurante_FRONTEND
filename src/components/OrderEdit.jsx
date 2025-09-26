@@ -70,7 +70,7 @@ const OrderEdit = () => {
         return;
       }
 
-      const availableTables = tablesRes.data.filter(table => table.disponible || table.id === order.id_mesa);
+      const availableTables = tablesRes.data.filter(table => table.estado === 'available' || table.id === order.id_mesa);
       setTables(availableTables);
 
       const availableDishes = dishesRes.data.filter(dish => dish.disponibilidad);
