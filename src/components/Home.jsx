@@ -12,7 +12,7 @@ import {
   CardContent,
   Link
 } from '@mui/material';
-import { Restaurant, MenuBook, TableChart, ShoppingCart, Login, PersonAdd } from '@mui/icons-material';
+import { Restaurant, MenuBook, TableChart, ShoppingCart, Login } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
@@ -34,14 +34,9 @@ const Home = () => {
               Ir al Panel
             </Button>
           ) : (
-            <>
-              <Button color="inherit" component={RouterLink} to="/login" startIcon={<Login />}>
-                Iniciar Sesión
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/register" startIcon={<PersonAdd />}>
-                Registrarse
-              </Button>
-            </>
+            <Button color="inherit" component={RouterLink} to="/login" startIcon={<Login />}>
+              Iniciar Sesión
+            </Button>
           )}
         </Toolbar>
       </AppBar>
@@ -57,15 +52,6 @@ const Home = () => {
             <Box sx={{ mt: 4 }}>
               <Button
                 variant="contained"
-                size="large"
-                sx={{ mr: 2, px: 4, py: 1.5 }}
-                component={RouterLink}
-                to="/register"
-              >
-                Comenzar Ahora
-              </Button>
-              <Button
-                variant="outlined"
                 size="large"
                 sx={{ px: 4, py: 1.5 }}
                 component={RouterLink}

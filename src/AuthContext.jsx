@@ -27,6 +27,25 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // Set up Axios response interceptor for handling 401/403 errors
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          // Token is invalid or expired, logout user
+          logout();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    // Cleanup interceptor on unmount
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
   const login = async (email, password) => {
     try {
       const response = await axios.post('http://localhost:3000/api/auth/login', {
@@ -43,17 +62,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (email, password) => {
-    try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', {
-        correo: email,
-        contraseña: password
-      });
-      return { success: true, message: response.data.message };
-    } catch (error) {
-      return { success: false, error: error.response?.data?.message || 'Registration failed' };
-    }
-  };
+
 
   const forgotPassword = async (email) => {
     try {
@@ -87,7 +96,6 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     login,
-    register,
     forgotPassword,
     resetPassword,
     logout,

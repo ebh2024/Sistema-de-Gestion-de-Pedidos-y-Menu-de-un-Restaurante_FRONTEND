@@ -11,14 +11,32 @@ import {
   Card,
   CardContent
 } from '@mui/material';
-import { Restaurant, MenuBook, TableChart, ShoppingCart, Logout } from '@mui/icons-material';
+import { Restaurant, MenuBook, TableChart, ShoppingCart, Logout, Edit, Visibility } from '@mui/icons-material';
 import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleMenuAction = () => {
+    if (user?.rol === 'admin') {
+      navigate('/menu-management');
+    } else if (user?.rol === 'mesero' || user?.rol === 'cocinero') {
+      navigate('/menu-view');
+    }
+  };
+
+  const handleTableAction = () => {
+    if (user?.rol === 'admin') {
+      navigate('/table-management');
+    } else if (user?.rol === 'mesero' || user?.rol === 'cocinero') {
+      navigate('/table-view');
+    }
   };
 
   return (
@@ -59,10 +77,15 @@ const Dashboard = () => {
                   Gestión de Menús
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Crea y administra el menú de tu restaurante.
+                  {user?.rol === 'admin' ? 'Crea y administra el menú de tu restaurante.' : 'Visualiza el menú disponible.'}
                 </Typography>
-                <Button variant="contained" sx={{ mt: 2 }}>
-                  Ver Menús
+                <Button
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  onClick={handleMenuAction}
+                  startIcon={user?.rol === 'admin' ? <Edit /> : <Visibility />}
+                >
+                  {user?.rol === 'admin' ? 'Gestionar Menú' : 'Ver Menú'}
                 </Button>
               </CardContent>
             </Card>
@@ -93,8 +116,13 @@ const Dashboard = () => {
                 <Typography variant="body2" color="text.secondary">
                   Organiza y asigna mesas a los clientes.
                 </Typography>
-                <Button variant="contained" sx={{ mt: 2 }}>
-                  Ver Mesas
+                <Button
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  onClick={handleTableAction}
+                  startIcon={user?.rol === 'admin' ? <Edit /> : <Visibility />}
+                >
+                  {user?.rol === 'admin' ? 'Gestionar Mesas' : 'Ver Mesas'}
                 </Button>
               </CardContent>
             </Card>

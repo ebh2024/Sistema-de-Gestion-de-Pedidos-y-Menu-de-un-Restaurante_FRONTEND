@@ -109,11 +109,6 @@ const Login = () => {
                   ¿Olvidaste tu contraseña?
                 </Link>
               </Grid>
-              <Grid item>
-                <Link component={RouterLink} to="/register" variant="body2">
-                  ¿No tienes cuenta? Regístrate
-                </Link>
-              </Grid>
             </Grid>
           </Box>
         </Paper>

@@ -5,11 +5,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
-import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import Dashboard from './components/Dashboard';
 import Home from './components/Home';
+import MenuManagement from './components/MenuManagement';
+import MenuView from './components/MenuView';
+import TableManagement from './components/TableManagement';
+import TableView from './components/TableView';
 
 const theme = createTheme({
   palette: {
@@ -34,7 +37,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route
@@ -42,6 +44,38 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/menu-management"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <MenuManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/menu-view"
+              element={
+                <ProtectedRoute allowedRoles={['mesero', 'cocinero']}>
+                  <MenuView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/table-management"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <TableManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/table-view"
+              element={
+                <ProtectedRoute allowedRoles={['mesero', 'cocinero']}>
+                  <TableView />
                 </ProtectedRoute>
               }
             />

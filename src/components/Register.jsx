@@ -15,6 +15,7 @@ import { useAuth } from '../AuthContext';
 
 const Register = () => {
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -50,7 +51,7 @@ const Register = () => {
       return;
     }
 
-    const result = await register(formData.email, formData.password);
+    const result = await register(formData.name, formData.email, formData.password);
 
     if (result.success) {
       setSuccess(result.message + '. Ahora puedes iniciar sesión.');
@@ -94,11 +95,22 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
+              id="name"
+              label="Nombre Completo"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              value={formData.name}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="email"
               label="Correo Electrónico"
               name="email"
               autoComplete="email"
-              autoFocus
               value={formData.email}
               onChange={handleChange}
               type="email"
