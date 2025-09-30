@@ -39,12 +39,21 @@ export const AuthProvider = ({ children }) => {
       // Show error message or redirect could be handled here
     };
 
+    // Auto logout when page is closed
+    const handleBeforeUnload = () => {
+      if (user) {
+        logout();
+      }
+    };
+
     window.addEventListener('auth-error', handleAuthError);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
       window.removeEventListener('auth-error', handleAuthError);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, []);
+  }, [user]);
 
   const login = async (email, password) => {
     try {
