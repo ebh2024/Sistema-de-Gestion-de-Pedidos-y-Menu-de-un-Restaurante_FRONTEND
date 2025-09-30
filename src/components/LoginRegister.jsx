@@ -16,8 +16,10 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
+import { useAuth } from '../contexts/AuthContext';
 
-function LoginRegister({ onLogin }) {
+function LoginRegister() {
+  const { login, register, forgotPassword, resetPassword } = useAuth();
   const [tabValue, setTabValue] = useState(0);
   const [mode, setMode] = useState('auth'); // 'auth', 'forgot', 'reset'
   const [formData, setFormData] = useState({
@@ -90,33 +92,50 @@ function LoginRegister({ onLogin }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+
+    setIsSubmitting(true);
+
     if (tabValue === 0) {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        onLogin({ email: formData.email, role: getRole(formData.email) });
+      // Login
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
         showToast('Login exitoso');
-        setIsSubmitting(false);
-      }, 1000);
+      } else {
+        showToast(result.error || 'Error en el login', 'error');
+      }
     } else {
+      // Register
       setConfirmDialog(true);
     }
+
+    setIsSubmitting(false);
   };
 
-  const handleConfirmRegister = () => {
+  const handleConfirmRegister = async () => {
     setConfirmDialog(false);
     setIsSubmitting(true);
-    setTimeout(() => {
-      console.log('Register:', formData);
+
+    const result = await register({
+      username: formData.email.split('@')[0], // Use email prefix as username
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (result.success) {
       showToast('Registro exitoso. Por favor inicia sesión.');
       setFormData({ email: '', password: '', confirmPassword: '', newPassword: '', confirmNewPassword: '' });
-      setIsSubmitting(false);
-    }, 1000);
+      setTabValue(0); // Switch to login tab
+    } else {
+      showToast(result.error || 'Error en el registro', 'error');
+    }
+
+    setIsSubmitting(false);
   };
 
-  const handleForgotSubmit = (e) => {
+  const handleForgotSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     if (!formData.email) {
@@ -127,17 +146,20 @@ function LoginRegister({ onLogin }) {
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       setIsSubmitting(true);
-      setTimeout(() => {
-        setResetToken('dummy-token-123');
+      const result = await forgotPassword(formData.email);
+      if (result.success) {
+        setResetToken('dummy-token-123'); // For demo purposes
         setMode('reset');
         showToast('Enlace de restablecimiento enviado a tu email');
         setFormData({ ...formData, email: '' });
-        setIsSubmitting(false);
-      }, 1000);
+      } else {
+        showToast(result.error || 'Error al enviar el enlace', 'error');
+      }
+      setIsSubmitting(false);
     }
   };
 
-  const handleResetSubmit = (e) => {
+  const handleResetSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     if (!formData.newPassword) {
@@ -151,13 +173,15 @@ function LoginRegister({ onLogin }) {
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       setIsSubmitting(true);
-      setTimeout(() => {
-        console.log('Password reset:', formData.newPassword);
+      const result = await resetPassword(resetToken, formData.newPassword);
+      if (result.success) {
         showToast('Contraseña restablecida exitosamente');
         setMode('auth');
         setFormData({ email: '', password: '', confirmPassword: '', newPassword: '', confirmNewPassword: '' });
-        setIsSubmitting(false);
-      }, 1000);
+      } else {
+        showToast(result.error || 'Error al restablecer contraseña', 'error');
+      }
+      setIsSubmitting(false);
     }
   };
 

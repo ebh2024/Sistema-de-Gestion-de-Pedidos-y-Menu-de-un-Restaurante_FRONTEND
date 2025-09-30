@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import LoginRegister from './components/LoginRegister';
 import AdminDashboard from './components/AdminDashboard';
 import WaiterDashboard from './components/WaiterDashboard';
@@ -6,18 +5,15 @@ import CookDashboard from './components/CookDashboard';
 import { DishProvider } from './components/DishContext';
 import { TableProvider } from './components/TableContext';
 import { OrderProvider } from './components/OrderContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Snackbar from './components/Snackbar';
 
-function App() {
-  const [user, setUser] = useState(null);
+function AppContent() {
+  const { user, logout, loading } = useAuth();
 
-  const handleLogin = (userData) => {
-    setUser(userData);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-  };
+  if (loading) {
+    return <div>Loading...</div>; // You could add a proper loading component here
+  }
 
   return (
     <DishProvider>
@@ -25,21 +21,29 @@ function App() {
         <OrderProvider>
           {user ? (
             user.role === 'Admin' ? (
-              <AdminDashboard user={user} onLogout={handleLogout} />
+              <AdminDashboard user={user} onLogout={logout} />
             ) : user.role === 'Mesero' ? (
-              <WaiterDashboard user={user} onLogout={handleLogout} />
+              <WaiterDashboard user={user} onLogout={logout} />
             ) : user.role === 'Cocinero' ? (
-              <CookDashboard user={user} onLogout={handleLogout} />
+              <CookDashboard user={user} onLogout={logout} />
             ) : (
-              <LoginRegister onLogin={handleLogin} />
+              <LoginRegister />
             )
           ) : (
-            <LoginRegister onLogin={handleLogin} />
+            <LoginRegister />
           )}
           <Snackbar />
         </OrderProvider>
       </TableProvider>
     </DishProvider>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
