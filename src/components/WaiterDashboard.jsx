@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Paper, Button } from '@mui/material';
+import MenuView from './MenuView';
 
 function WaiterDashboard({ user, onLogout }) {
   return (
@@ -19,6 +20,9 @@ function WaiterDashboard({ user, onLogout }) {
           <li>Ver menú</li>
         </ul>
       </Paper>
+      <Box sx={{ mt: 4 }}>
+        <MenuView />
+      </Box>
       <Button variant="outlined" onClick={onLogout} sx={{ mt: 2 }}>
         Cerrar Sesión
       </Button>
