@@ -20,6 +20,17 @@ export const DishProvider = ({ children }) => {
     const savedDishes = localStorage.getItem('dishes');
     if (savedDishes) {
       setDishes(JSON.parse(savedDishes));
+    } else {
+      // Add sample data if none exists
+      const sampleDishes = [
+        { id: 1, name: 'Pizza Margherita', description: 'Pizza clásica con tomate, mozzarella y albahaca', price: 12.99, available: true },
+        { id: 2, name: 'Hamburguesa Clásica', description: 'Hamburguesa con queso, lechuga y tomate', price: 9.99, available: true },
+        { id: 3, name: 'Pasta Carbonara', description: 'Pasta con salsa carbonara tradicional', price: 11.50, available: true },
+        { id: 4, name: 'Ensalada César', description: 'Ensalada con pollo, crutones y aderezo césar', price: 8.75, available: true },
+        { id: 5, name: 'Tiramisú', description: 'Postre italiano clásico', price: 6.50, available: true },
+        { id: 6, name: 'Refresco', description: 'Bebida gaseosa 330ml', price: 2.50, available: true }
+      ];
+      setDishes(sampleDishes);
     }
   }, []);
 

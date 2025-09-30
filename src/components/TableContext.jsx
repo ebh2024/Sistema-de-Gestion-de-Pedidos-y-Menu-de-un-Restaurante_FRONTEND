@@ -20,6 +20,17 @@ export const TableProvider = ({ children }) => {
     const savedTables = localStorage.getItem('tables');
     if (savedTables) {
       setTables(JSON.parse(savedTables));
+    } else {
+      // Add sample data if none exists
+      const sampleTables = [
+        { id: 1, number: 1, seats: 4, available: true },
+        { id: 2, number: 2, seats: 2, available: true },
+        { id: 3, number: 3, seats: 6, available: true },
+        { id: 4, number: 4, seats: 4, available: true },
+        { id: 5, number: 5, seats: 8, available: true },
+        { id: 6, number: 6, seats: 2, available: true }
+      ];
+      setTables(sampleTables);
     }
   }, []);
 

@@ -1,9 +1,15 @@
 import React from 'react';
 import { Snackbar as MuiSnackbar, Alert } from '@mui/material';
 import { useDishes } from './DishContext';
+import { useOrders } from './OrderContext';
 
 function Snackbar() {
-  const { snackbar, setSnackbar } = useDishes();
+  const { snackbar: dishSnackbar, setSnackbar: setDishSnackbar } = useDishes();
+  const { snackbar: orderSnackbar, setSnackbar: setOrderSnackbar } = useOrders();
+
+  // Use whichever snackbar is open, prioritizing order snackbar
+  const snackbar = orderSnackbar.open ? orderSnackbar : dishSnackbar;
+  const setSnackbar = orderSnackbar.open ? setOrderSnackbar : setDishSnackbar;
 
   const handleClose = () => {
     setSnackbar({ ...snackbar, open: false });
