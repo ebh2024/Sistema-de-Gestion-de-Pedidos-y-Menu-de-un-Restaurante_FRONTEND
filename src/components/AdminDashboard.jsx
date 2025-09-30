@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Paper, Button } from '@mui/material';
 import DishList from './DishList';
+import TableList from './TableList';
 
 function AdminDashboard({ user, onLogout }) {
   return (
@@ -22,6 +23,9 @@ function AdminDashboard({ user, onLogout }) {
       </Paper>
       <Box sx={{ mt: 4 }}>
         <DishList />
+        <Box sx={{ mt: 4 }}>
+          <TableList />
+        </Box>
       </Box>
       <Button variant="outlined" onClick={onLogout} sx={{ mt: 2 }}>
         Cerrar Sesión

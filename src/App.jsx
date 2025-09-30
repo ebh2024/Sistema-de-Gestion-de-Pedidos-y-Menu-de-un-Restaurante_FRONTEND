@@ -4,6 +4,7 @@ import AdminDashboard from './components/AdminDashboard';
 import WaiterDashboard from './components/WaiterDashboard';
 import CookDashboard from './components/CookDashboard';
 import { DishProvider } from './components/DishContext';
+import { TableProvider } from './components/TableContext';
 import Snackbar from './components/Snackbar';
 
 function App() {
@@ -19,20 +20,22 @@ function App() {
 
   return (
     <DishProvider>
-      {user ? (
-        user.role === 'Admin' ? (
-          <AdminDashboard user={user} onLogout={handleLogout} />
-        ) : user.role === 'Mesero' ? (
-          <WaiterDashboard user={user} onLogout={handleLogout} />
-        ) : user.role === 'Cocinero' ? (
-          <CookDashboard user={user} onLogout={handleLogout} />
+      <TableProvider>
+        {user ? (
+          user.role === 'Admin' ? (
+            <AdminDashboard user={user} onLogout={handleLogout} />
+          ) : user.role === 'Mesero' ? (
+            <WaiterDashboard user={user} onLogout={handleLogout} />
+          ) : user.role === 'Cocinero' ? (
+            <CookDashboard user={user} onLogout={handleLogout} />
+          ) : (
+            <LoginRegister onLogin={handleLogin} />
+          )
         ) : (
           <LoginRegister onLogin={handleLogin} />
-        )
-      ) : (
-        <LoginRegister onLogin={handleLogin} />
-      )}
-      <Snackbar />
+        )}
+        <Snackbar />
+      </TableProvider>
     </DishProvider>
   );
 }
